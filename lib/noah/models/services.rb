@@ -16,7 +16,7 @@ module Noah
       assert_present :status
       assert_present :host_id
       assert_unique [:name, :host_id]
-      assert_member :status, ["up", "down", "pending"]
+      assert_member :status, ["up", "down", "pending", "failed"]
     end
 
     def to_hash

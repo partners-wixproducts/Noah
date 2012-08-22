@@ -19,6 +19,17 @@ describe "Noah Service Model", :reset_redis => true do
       host.services[service.id].name.should == servicename
     end
 
+    it "create service with allowed statuses" do
+      host = Noah::Host.create(:name => 'mytesthost3', :status => 'up')
+
+      %w{ up  down pending failed}.each do |servicestatus|
+        host.save
+        service = Noah::Service.find_or_create(:name => "test-#{servicestatus}",
+                    :status => servicestatus, :host => host)
+        service.valid?.should be_true
+      end
+    end
+
     it "create a new Service with find_or_create" do
       host = Noah::Host.create(:name => "h1", :status => "up")
       host.save
